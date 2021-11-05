@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="./style.css" />
+
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+
+    <title>Tutorial Leaflet</title>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map = L.map("map").setView([51, 0], 8);
+      L.tileLayer(
+        "https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=z02r6RembJgpYv8gwiV9",
+        {
+          atribution:
+            '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>  <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+            crossOrigin: true,
+        }
+      ).addTo(map);
+
+       // Create a single icon with a shadow
+    //   var leafletIcon = L.icon({
+    //       iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
+    //       shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
+    //       iconSize: [38,95],
+    //       iconAnchor: [0,0],
+    //       shadowAncor :[0,0],
+    //       popupAnAnchor: [12,-90]
+    //   })
+
+      //create a class of icon, like an object and posteriorly we instantiate the icosn with the urlparameters
+
+      var LeafletIcon = L.Icon.extend({
+          options: {
+              shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png', 
+              iconSize: [38,95],
+              shadowSize: [50,64],
+              
+              iconAnchor: [22,94],
+              popupAnAnchor: [-3,-76]
+          }
+      })
+
+      var greeIcon = new LeafletIcon({iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',}),
+      redIcon = new LeafletIcon({iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',}),
+      orangeIcon = new LeafletIcon({iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-orange.png',})
+
+  
+
+    var marker = L.marker([51.5, -0.08],{
+          icon:greeIcon,
+          draggable: true}).addTo(map);
+    var marker = L.marker([51.5, -0.09],{
+          icon:redIcon,
+          draggable: true}).addTo(map);
+    var marker = L.marker([51.5, -0.10],{
+          icon:orangeIcon,
+          draggable: true}).addTo(map)
+
+      var circle = L.circle([51.508, -0.11], {
+        color: "black",
+        fillColor: "#f03",
+        fillOpacity: 0.5,
+        radius: 500,
+      }).addTo(map);
+
+      var polygon = L.polygon([
+          [51.509, -0.08],
+          [51.503, -0.06],
+          [51.51, -0.047],
+          [51.54, -0.042],
+
+      ]).addTo(map)
+
+      marker.bindPopup("<b>Hello World!</b><b>Iḿ a marker</b>")
+      circle.bindPopup("<b>Hello World!</b><b>Iḿ a marker</b>")
+      polygon.bindPopup("<b>Hello World!</b><b>Iḿ a marker</b>")
+
+      L.control.scale({
+          metric: true,
+          imperial: false,
+          position: 'topright'
+      }).addTo(map)
+
+    </script>
+  </body>
+</html>
